@@ -1,0 +1,6 @@
+{
+  "dtype": "float16",
+  "reason": "float16 on MPS produced coherent English for the photosynthesis probe and all hidden states were finite across every layer.",
+  "probe": "Explain photosynthesis in one sentence.",
+  "float16_output": "Photosynthesis is the process by which plants use sunlight to convert carbon dioxide and water into glucose and oxygen."
+}

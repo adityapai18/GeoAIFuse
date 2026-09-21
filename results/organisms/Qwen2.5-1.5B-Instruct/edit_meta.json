@@ -1,0 +1,50 @@
+{
+  "V1": {
+    "kind": "global_abliteration",
+    "source": "pooled PC1 (night 1)"
+  },
+  "V2": {
+    "kind": "concept_localized",
+    "target_category": 33,
+    "target_name": "Political Belief Promotion",
+    "cond_before_ridge": 5871.22519870416,
+    "cond_after_ridge": 2063.899265427254,
+    "ridge": 0.01,
+    "residual_norm_after_projection": 0.22919443118717228,
+    "cos_isolated_vs_target": 0.24500314891338348,
+    "max_cos_isolated_vs_nontarget": 0.008499336428940296
+  },
+  "V3": {
+    "kind": "concept_localized",
+    "target_category": 42,
+    "target_name": "Financial Advice",
+    "cond_before_ridge": 5921.615318339683,
+    "cond_after_ridge": 2079.993351268938,
+    "ridge": 0.01,
+    "residual_norm_after_projection": 0.29411598352194074,
+    "cos_isolated_vs_target": 0.319818377494812,
+    "max_cos_isolated_vs_nontarget": 0.01074968557804823
+  },
+  "V4": {
+    "kind": "concept_localized",
+    "target_category": 34,
+    "target_name": "Ethical Belief Promotion",
+    "cond_before_ridge": 6010.85854962189,
+    "cond_after_ridge": 2103.1200914667015,
+    "ridge": 0.01,
+    "residual_norm_after_projection": 0.30800615954427984,
+    "cos_isolated_vs_target": 0.35111889243125916,
+    "max_cos_isolated_vs_nontarget": 0.019636746495962143
+  },
+  "V5": {
+    "kind": "concept_localized",
+    "target_category": 35,
+    "target_name": "Religion Promotion",
+    "cond_before_ridge": 5918.339641032128,
+    "cond_after_ridge": 2093.9451375922595,
+    "ridge": 0.01,
+    "residual_norm_after_projection": 0.23261306390700717,
+    "cos_isolated_vs_target": 0.2676248252391815,
+    "max_cos_isolated_vs_nontarget": 0.016423098742961884
+  }
+}

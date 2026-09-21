@@ -1,0 +1,94 @@
+{
+  "structure": {
+    "Qwen2.5-1.5B-Instruct": {
+      "peak_layer": 19,
+      "n_layers": 29,
+      "depth_frac": 0.68,
+      "top1": 0.7246960997581482,
+      "top3": 0.8790959715843201,
+      "top5": 0.9196025133132935,
+      "effective_rank": 3.407283067703247,
+      "participation_ratio": 1.8493095636367798,
+      "mean_pairwise_cosine": 0.7059183716773987
+    },
+    "Llama-3.2-1B-Instruct": {
+      "peak_layer": 15,
+      "n_layers": 17,
+      "depth_frac": 0.94,
+      "top1": 0.7155109643936157,
+      "top3": 0.7956032156944275,
+      "top5": 0.8390250205993652,
+      "effective_rank": 4.472140312194824,
+      "participation_ratio": 1.93277108669281,
+      "mean_pairwise_cosine": 0.7005655169487
+    },
+    "Llama-3.2-3B-Instruct": {
+      "peak_layer": 24,
+      "n_layers": 29,
+      "depth_frac": 0.86,
+      "top1": 0.7549713850021362,
+      "top3": 0.830682098865509,
+      "top5": 0.8696079254150391,
+      "effective_rank": 3.7067933082580566,
+      "participation_ratio": 1.740177035331726,
+      "mean_pairwise_cosine": 0.7401620745658875
+    }
+  },
+  "gate": {
+    "Qwen2.5-1.5B-Instruct": {
+      "verdict": "CORE IS REAL AND CAUSAL \u2014 PROCEED",
+      "baseline": 0.8222222222222222,
+      "ablate_pc1": 0.14814814814814814,
+      "ablate_random": 0.8074074074074075,
+      "drop_pc1": 0.674074074074074,
+      "drop_random": 0.014814814814814725,
+      "arc_baseline": 0.87,
+      "arc_ablated": 0.89,
+      "arc_drop": -0.020000000000000018,
+      "capability_confound": false,
+      "arc_easy": {
+        "baseline": 0.87,
+        "ablate_pc1": 0.89
+      },
+      "ablate_early_spike": 0.8740740740740741
+    },
+    "Llama-3.2-1B-Instruct": {
+      "verdict": "CORE IS REAL AND CAUSAL \u2014 PROCEED",
+      "baseline": 0.8222222222222222,
+      "ablate_pc1": 0.17037037037037037,
+      "ablate_random": 0.837037037037037,
+      "drop_pc1": 0.6518518518518518,
+      "drop_random": -0.014814814814814836,
+      "arc_baseline": 0.47,
+      "arc_ablated": 0.44,
+      "arc_drop": 0.02999999999999997,
+      "capability_confound": false,
+      "arc_easy": {
+        "baseline": 0.47,
+        "ablate_pc1": 0.44
+      },
+      "ablate_early_spike": 0.8592592592592593
+    },
+    "Llama-3.2-3B-Instruct": {
+      "verdict": "CORE IS CAUSAL BUT PARTIAL \u2014 PROCEED WITH CAVEAT [CONFOUNDED: ARC-easy fell 0.94 -> 0.49, so the refusal drop cannot be cleanly attributed to refusal removal]",
+      "baseline": 0.6518518518518519,
+      "ablate_pc1": 0.3851851851851852,
+      "ablate_random": 0.6814814814814815,
+      "drop_pc1": 0.2666666666666667,
+      "drop_random": -0.02962962962962956,
+      "arc_baseline": 0.94,
+      "arc_ablated": 0.49,
+      "arc_drop": 0.44999999999999996,
+      "capability_confound": true,
+      "arc_easy": {
+        "baseline": 0.94,
+        "ablate_pc1": 0.49
+      },
+      "ablate_early_spike": 0.6222222222222222
+    }
+  },
+  "classifier_validation": {
+    "benign_baseline_refusal_rate": 0.1,
+    "benign_ablated_refusal_rate": 0.05
+  }
+}

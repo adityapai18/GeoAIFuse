@@ -1,0 +1,164 @@
+{
+  "fidelity": {
+    "Qwen2.5-1.5B-Instruct": {
+      "top1_var": {
+        "real": 0.33710014820098877,
+        "surrogate": 0.38207247853279114
+      },
+      "mean_cos_pc1": {
+        "real": 0.4531642496585846,
+        "surrogate": 0.06223813071846962
+      }
+    },
+    "Llama-3.2-1B-Instruct": {
+      "top1_var": {
+        "real": 0.47701525688171387,
+        "surrogate": 0.17026560008525848
+      },
+      "mean_cos_pc1": {
+        "real": 0.6747488975524902,
+        "surrogate": 0.019235918298363686
+      }
+    }
+  },
+  "sweep": {
+    "Qwen2.5-1.5B-Instruct": [
+      {
+        "alpha": 0.0,
+        "top1_var": 0.7246960997581482,
+        "mean_cos_pc1": 0.8434086441993713,
+        "verdict": "PASS"
+      },
+      {
+        "alpha": 0.1,
+        "top1_var": 0.688001275062561,
+        "mean_cos_pc1": 0.8195775151252747,
+        "verdict": "PASS"
+      },
+      {
+        "alpha": 0.2,
+        "top1_var": 0.6443988680839539,
+        "mean_cos_pc1": 0.7901117205619812,
+        "verdict": "PASS"
+      },
+      {
+        "alpha": 0.3,
+        "top1_var": 0.5924664735794067,
+        "mean_cos_pc1": 0.753064751625061,
+        "verdict": "FLAG"
+      },
+      {
+        "alpha": 0.4,
+        "top1_var": 0.5308079123497009,
+        "mean_cos_pc1": 0.7053574323654175,
+        "verdict": "FLAG"
+      },
+      {
+        "alpha": 0.5,
+        "top1_var": 0.4589413106441498,
+        "mean_cos_pc1": 0.6409009695053101,
+        "verdict": "FLAG"
+      },
+      {
+        "alpha": 0.6,
+        "top1_var": 0.38173314929008484,
+        "mean_cos_pc1": 0.5381973385810852,
+        "verdict": "FLAG"
+      },
+      {
+        "alpha": 0.7,
+        "top1_var": 0.333497554063797,
+        "mean_cos_pc1": 0.31077465415000916,
+        "verdict": "FLAG"
+      },
+      {
+        "alpha": 0.8,
+        "top1_var": 0.3461865782737732,
+        "mean_cos_pc1": 0.1338886022567749,
+        "verdict": "FLAG"
+      },
+      {
+        "alpha": 0.9,
+        "top1_var": 0.3710727393627167,
+        "mean_cos_pc1": 0.07669717818498611,
+        "verdict": "FLAG"
+      },
+      {
+        "alpha": 1.0,
+        "top1_var": 0.38207247853279114,
+        "mean_cos_pc1": 0.06223813071846962,
+        "verdict": "FLAG"
+      }
+    ],
+    "Qwen2.5-1.5B-Instruct_first_flag": 0.3,
+    "Llama-3.2-1B-Instruct": [
+      {
+        "alpha": 0.0,
+        "top1_var": 0.7155109643936157,
+        "mean_cos_pc1": 0.8408138751983643,
+        "verdict": "PASS"
+      },
+      {
+        "alpha": 0.1,
+        "top1_var": 0.6757316589355469,
+        "mean_cos_pc1": 0.8157112002372742,
+        "verdict": "PASS"
+      },
+      {
+        "alpha": 0.2,
+        "top1_var": 0.6283066868782043,
+        "mean_cos_pc1": 0.7847388386726379,
+        "verdict": "FLAG"
+      },
+      {
+        "alpha": 0.3,
+        "top1_var": 0.5716342329978943,
+        "mean_cos_pc1": 0.7460923790931702,
+        "verdict": "FLAG"
+      },
+      {
+        "alpha": 0.4,
+        "top1_var": 0.5040073990821838,
+        "mean_cos_pc1": 0.6973070502281189,
+        "verdict": "FLAG"
+      },
+      {
+        "alpha": 0.5,
+        "top1_var": 0.4240184724330902,
+        "mean_cos_pc1": 0.6350045800209045,
+        "verdict": "FLAG"
+      },
+      {
+        "alpha": 0.6,
+        "top1_var": 0.33164140582084656,
+        "mean_cos_pc1": 0.5544624328613281,
+        "verdict": "FLAG"
+      },
+      {
+        "alpha": 0.7,
+        "top1_var": 0.23114827275276184,
+        "mean_cos_pc1": 0.4469459652900696,
+        "verdict": "FLAG"
+      },
+      {
+        "alpha": 0.8,
+        "top1_var": 0.1582053005695343,
+        "mean_cos_pc1": 0.15819020569324493,
+        "verdict": "FLAG"
+      },
+      {
+        "alpha": 0.9,
+        "top1_var": 0.16549715399742126,
+        "mean_cos_pc1": 0.031379781663417816,
+        "verdict": "FLAG"
+      },
+      {
+        "alpha": 1.0,
+        "top1_var": 0.17026560008525848,
+        "mean_cos_pc1": 0.019235918298363686,
+        "verdict": "FLAG"
+      }
+    ],
+    "Llama-3.2-1B-Instruct_first_flag": 0.2
+  }
+}

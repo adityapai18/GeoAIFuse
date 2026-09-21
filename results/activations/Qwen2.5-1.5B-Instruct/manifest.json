@@ -1,0 +1,32 @@
+{
+  "harmful": {
+    "shape": [
+      450,
+      29,
+      1536
+    ],
+    "dtype": "float16",
+    "n_prompts": 450,
+    "n_layers_plus_embed": 29,
+    "d_model": 1536,
+    "seconds": 14.8,
+    "max_len": 256,
+    "batch_size": 4,
+    "finite": true
+  },
+  "benign": {
+    "shape": [
+      500,
+      29,
+      1536
+    ],
+    "dtype": "float16",
+    "n_prompts": 500,
+    "n_layers_plus_embed": 29,
+    "d_model": 1536,
+    "seconds": 11.5,
+    "max_len": 256,
+    "batch_size": 4,
+    "finite": true
+  }
+}

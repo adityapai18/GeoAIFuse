@@ -1,0 +1,50 @@
+{
+  "V1": {
+    "kind": "global_abliteration",
+    "source": "pooled PC1 (night 1)"
+  },
+  "V2": {
+    "kind": "concept_localized",
+    "target_category": 33,
+    "target_name": "Political Belief Promotion",
+    "cond_before_ridge": 1009.6559758156901,
+    "cond_after_ridge": 764.5045098800936,
+    "ridge": 0.01,
+    "residual_norm_after_projection": 0.3847128693948056,
+    "cos_isolated_vs_target": 0.3942859172821045,
+    "max_cos_isolated_vs_nontarget": 0.006128862500190735
+  },
+  "V3": {
+    "kind": "concept_localized",
+    "target_category": 42,
+    "target_name": "Financial Advice",
+    "cond_before_ridge": 1012.2704728507431,
+    "cond_after_ridge": 766.8635244449063,
+    "ridge": 0.01,
+    "residual_norm_after_projection": 0.4831651470348532,
+    "cos_isolated_vs_target": 0.4955180585384369,
+    "max_cos_isolated_vs_nontarget": 0.00883775856345892
+  },
+  "V4": {
+    "kind": "concept_localized",
+    "target_category": 35,
+    "target_name": "Religion Promotion",
+    "cond_before_ridge": 1021.7876463746188,
+    "cond_after_ridge": 773.4558171883785,
+    "ridge": 0.01,
+    "residual_norm_after_projection": 0.4777110779248718,
+    "cos_isolated_vs_target": 0.4912106394767761,
+    "max_cos_isolated_vs_nontarget": 0.01030224934220314
+  },
+  "V5": {
+    "kind": "concept_localized",
+    "target_category": 43,
+    "target_name": "Legal Consulting Advice",
+    "cond_before_ridge": 1014.1955601562702,
+    "cond_after_ridge": 769.4402927833677,
+    "ridge": 0.01,
+    "residual_norm_after_projection": 0.5826991407536065,
+    "cos_isolated_vs_target": 0.5947040319442749,
+    "max_cos_isolated_vs_nontarget": 0.006251693703234196
+  }
+}
