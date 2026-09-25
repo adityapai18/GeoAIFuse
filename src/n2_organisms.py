@@ -65,7 +65,7 @@ def select_targets(sl, struct):
 
 # ------------------------------------------------------- RepIt isolation
 
-def build_localized(target_cat, sl, layer, cats):
+def build_localized(target_cat, sl, layer, cats, ridge=None):
     """RepIt-style concept isolation -> unit vector + diagnostics.
 
     a. v_target = target category's refusal direction
@@ -95,7 +95,8 @@ def build_localized(target_cat, sl, layer, cats):
     G = (N @ N.T).astype(np.float64)
     cond_before = float(np.linalg.cond(G))
     scale = float(np.trace(G) / G.shape[0])
-    Greg = G + RIDGE * scale * np.eye(G.shape[0])
+    r = RIDGE if ridge is None else ridge
+    Greg = G + r * scale * np.eye(G.shape[0])
     cond_after = float(np.linalg.cond(Greg))
 
     # (d) ridge-regularized orthogonal projection off span(N).
@@ -109,7 +110,7 @@ def build_localized(target_cat, sl, layer, cats):
         "target_name": IN_SCOPE[target_cat],
         "cond_before_ridge": cond_before,
         "cond_after_ridge": cond_after,
-        "ridge": RIDGE,
+        "ridge": r,
         "residual_norm_after_projection": nrm,
         "cos_isolated_vs_target": float(np.dot(v_iso, v_target)),
         "max_cos_isolated_vs_nontarget": float(np.abs(N @ v_iso).max()),

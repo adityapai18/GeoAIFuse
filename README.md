@@ -2,106 +2,121 @@
 
 Do per-category refusal directions in small instruct models share a dominant
 low-dimensional component? Does it causally mediate refusal? And can that
-geometry be used to detect a tampered model?
+geometry detect a tampered model?
 
-Three nights of work on a 16GB Apple Silicon Mac (MPS, float16, PyTorch +
-HuggingFace only). Full write-ups: **[FINDINGS.md](FINDINGS.md)** (night 1),
-**[FINDINGS_N2.md](FINDINGS_N2.md)** (night 2),
-**[FINDINGS_N3.md](FINDINGS_N3.md)** (night 3).
+**Answers: yes, yes (in small models), and no.**
 
-## The three results
+Four nights of work on a 16GB Apple Silicon Mac (MPS, float16, PyTorch +
+HuggingFace only, no cloud). Preprint draft: **[PAPER.md](PAPER.md)**.
+Per-night detail: [FINDINGS.md](FINDINGS.md) · [FINDINGS_N2.md](FINDINGS_N2.md)
+· [FINDINGS_N3.md](FINDINGS_N3.md) · [FINDINGS_N4.md](FINDINGS_N4.md).
+Figure index: [FIGURES.md](FIGURES.md).
 
-**Night 1 — the core is real and causal.** Across 45 SORRY-Bench harm
-categories, one direction carries **72–76%** of the variance in the
-per-category refusal directions, at 68–94% network depth, consistently in all
-three models (effective rank 3.4–4.5 — one dominant core plus a few secondary
-directions, not one direction and not 45). Ablating it collapses refusal
-0.82 → 0.15/0.17 while a random-direction control does not move and ARC-easy is
-untouched. Llama-3.2-3B is confounded (ARC 0.94 → 0.49) and is excluded from
-the clean claim.
+## What holds
 
-**Night 2 — the loud attack is caught; the quiet attack was never built.**
-Global abliteration collapses refusal (0.742 → 0.058) and is flagged. All eight
-concept-localized organisms pass the scanner — but none suppressed its target
-category, so the evasion is vacuous: they pass because they are inert. The
-cause is geometric. With categories 70–74% mutually correlated, RepIt-style
-isolation leaves only 25–60% of the target direction, and the refusal the model
-actually performs lives in the shared core the method discards. Separately,
-**AMS Tier 1 missed global abliteration in both models**; every flag came from
-Tier 2, which needs a trusted clean copy.
+**Fine-grained category geometry, causally validated.** Across 45 SORRY-Bench
+harm categories and 13 instruct models from 9 families, one direction carries
+**55–79%** of the variance in the per-category refusal directions (effective
+rank 3.4–4.5 in the stronger models). In the two small models tested causally,
+ablating it collapses refusal — Qwen2.5-1.5B **0.770 → 0.119**, Llama-3.2-1B
+**0.704 → 0.170** — while a random-direction control and an early-layer
+"topic" control do not move and ARC-easy is preserved.
 
-**Night 3 — a baseline-free detector.** The same 45-category matrix yields two
-dimensionless features (`top1_var`, `mean_cos_pc1`) that need no reference
-model. They score **12/12** on the built variants, are stable across a
-12× range of thresholds, and fire when only **11–17%** of the attack's eventual
-refusal suppression has happened. This fills the quadrant Tier 1 was meant to
-occupy.
+**AMS Tier 1 does not detect abliteration, and there is a mechanistic reason.**
+A reimplementation of the Vantablack-2026 scanner misses global abliteration in
+both models (0/2). Tier 1 measures how well harmful and benign *prompts*
+separate — harm-topic representation — which abliteration leaves intact. It
+removes the refusal *response* direction, a different object.
 
-| | needs a trusted clean copy? | caught full abliteration | caught partial |
-|---|---|---|---|
-| AMS Tier 1 | no | **no (0/2)** | — |
-| AMS Tier 2 | **yes** | yes (2/2) | would need the copy |
-| Night-3 detector | **no** | yes (2/2) | yes (6/6) |
+**RepIt-style concept isolation does not work at this scale.** Eight localized
+organisms produced no target suppression. Measured at logit level with paired
+n=10 (far more powerful than the binary measure), 6 of 8 have CIs excluding even
+a 10%-of-abliteration effect, and four *raise* refusal. Because the 45 category
+directions are 70–74% mutually collinear, isolating one leaves 25–60% of it, and
+a ridge sweep shows suppression only appears once isolation is abandoned:
+**isolation buys selectivity by giving up all of the force.**
 
-## Three things that nearly went wrong
+## What does not hold — read this before using the detector
 
-- **A layer-0 degeneracy** (night 1) made a naive peak-picker choose layer 0/1
-  in all three models, with *higher* apparent variance than the true peak. At
-  the last token — the same chat-template token for every prompt — the
-  difference-of-means cancels to exactly zero for 43 of 45 categories, and an
-  epsilon in the normalizer manufactured a spectrum from noise. Unnoticed, the
-  causal stage would have ablated noise and reported a false negative.
-- **A refusal classifier with a 7.5% false-positive rate** (night 2) put a
-  floor under every number. Hardened against 200 hand-labelled generations to
-  2.3% (F1 0.800 → 0.909), which revealed night 1's rates were inflated
-  (Qwen baseline 0.742, not 0.822).
-- **A CPU surrogate for abliteration that was not faithful** (night 3), off by
-  up to 0.66 on `mean_cos_pc1`. Discarded in favour of real weight edits — but
-  the failure itself showed that downstream layers partially *reconstruct* the
-  shared core after weight-level abliteration.
+Night 3 proposed a reference-free tamper detector from PC1 statistics of the
+category matrix. **Night 4 broke it in both directions, and it should not be
+used.**
+
+- **Its features are PC1 statistics and the attack it was tested on was PC1
+  ablation.** That is the whole of its validation.
+- **38% false positives.** Widening the clean prior from 3 models to 13 (9
+  families) flags 5 clean models: StableLM-2, TinyLlama, SmolLM2, Qwen3-0.6B,
+  Qwen3-1.7B. The night-3 prior understated clean spread by 4×.
+- **Defeated by the first adversary tried.** `W' = W − v(vᵀW) + β·u(vᵀW)` at
+  β=2.0 drops refusal 0.742 → **0.042** with ARC 0.870 → 0.860, and presents
+  top1 = 0.706 — mid-clean-range. The detector **passes** it.
+- **It is still caught by a reference-based scan.** AMS Tier 2 flags the same
+  model at cos 0.226 (threshold 0.8). The adversary preserves the PC1
+  *statistics* while rotating the *direction* away.
+
+The generalizable conclusion: **reference-free tamper detection built on
+spectrum statistics is defeatable by construction; the reference comparison is
+doing the real work.** Both reference-free tiers tested in this project fail
+against attacks aimed at them.
+
+## Corrections we made to our own earlier nights
+
+This repo's value is that negative results got written up as negative results,
+including against itself.
+
+- **Llama-3.2-3B's causal effect was withdrawn.** Night 1 reported 0.652 →
+  0.385 and called it "confounded." Re-measured with the hardened classifier
+  it is 0.348 → 0.356 — no effect at all. The apparent drop was the loose
+  classifier's false positives disappearing as outputs changed.
+- **The shared core is not as uniform as night 1 claimed.** 0.716–0.755 across
+  three models became **0.550–0.785** across nine families. A dominant component
+  exists everywhere; its strength is model- and scale-dependent.
+- **A layer-0 degeneracy** nearly inverted night 1. At the last token — the same
+  chat-template token for every prompt — the difference-of-means cancels to
+  exactly zero for 43 of 45 categories, and an epsilon manufactured a spectrum
+  from noise. The naive peak-picker chose layer 0/1 for **all 13** models tested.
+- **A refusal classifier with a 7.5% FP rate** was hardened to 2.3% (F1 0.800 →
+  0.909) against 200 hand-labelled generations, and every night-1 number was
+  re-measured so the paper quotes one classifier throughout.
+- **The selectivity metric was retired** — undefined when both its terms are ~0.
 
 ## Repository layout
 
 ```
 src/
-  common.py              config, data loading, memory discipline, logging
-  stage0_dtype.py        float16-vs-float32 numerics gate (run first)
-  smoke_test.py          20-prompt end-to-end + runtime extrapolation
-  stage1_extract.py      activations -> results/activations/
-  stage23_structure.py   direction matrix, SVD, layer profile, figures
-  stage4_causal.py       ablation hooks, refusal + ARC measurement
-  make_report.py         night-1 gate verdict and summary figure
-  validate_classifier.py night-1 classifier false-positive probe
+  common.py                config, data, memory discipline, logging
+  stage0_dtype.py          float16-vs-float32 numerics gate (run first)
+  smoke_test.py            20-prompt end-to-end + runtime extrapolation
+  stage1_extract.py        activations -> results/activations/
+  stage23_structure.py     direction matrix, SVD, layer profile
+  stage4_causal.py         ablation hooks, refusal + ARC measurement
+  make_report.py           night-1 gate verdict and figure
+  validate_classifier.py   night-1 classifier FP probe
 
-  n2_classifier.py       hardened 3-way refusal classifier
-  n2_gen_valset.py       classifier validation set (in-scope prompts only)
-  n2_eval_classifier.py  precision/recall/FP before and after
-  n2_organisms.py        target selection, RepIt isolation, weight editing
-  n2_ams.py              AMS-style scanner (tier 1 + tier 2)
-  n2_run.py              build + evaluate + scan + save night-3 data
-  n2_stage0_band.py      Llama-3.2-3B layer-band sweep (timeboxed)
-  n2_report.py           night-2 headline table and figure
+  n2_classifier.py         hardened 3-way refusal classifier
+  n2_gen_valset.py         classifier validation set (in-scope prompts only)
+  n2_eval_classifier.py    precision/recall/FP before and after
+  n2_organisms.py          target selection, RepIt isolation, weight editing
+  n2_ams.py                AMS-style scanner (tier 1 + tier 2)
+  n2_run.py                build + evaluate + scan + save night-3 data
+  n2_stage0_band.py        Llama-3.2-3B layer-band sweep (timeboxed)
+  n2_report.py             night-2 headline table
 
-  n3_detector.py         baseline-free detector, clean prior, k-sweep (CPU)
-  n3_graded.py           real partial-abliteration sweep (GPU)
-  n3_report.py           detector-vs-AMS comparison and figures
+  n3_detector.py           reference-free detector + clean prior + k-sweep
+  n3_graded.py             real partial-abliteration sweep
+  n3_report.py             detector-vs-AMS comparison
 
-results/
-  activations/           cached last-token states, all layers (305MB)
-  structure.json         night-1 geometry, per-layer, per-model
-  metrics.json           night-1 causal results
-  summary.json           night-1 gate verdicts
-  classifier_val/        200 generations (benign + in-scope), labels, metrics
-  n2_metrics.json        per-variant refusal, per-category, ARC, AMS
-  n2_summary.json        night-2 headline table
-  n2_band_sweep.json     3B layer-band sweep
-  organisms/             edit vectors + per-variant direction matrices
-  n3_detector.json       detector features, verdicts, threshold sensitivity
-  n3_graded.json         refusal + features vs abliteration strength
-  n3_surrogate.json      surrogate fidelity check (negative result)
-  figures/               13 figures
-  run.log                timestamped log of every run
+  n4_phase_a.py            13-model clean prior (one model at a time, purged)
+  n4_phase_a_analysis.py   FP rate, per-family breakdown, threshold re-derivation
+  n4_phase_b.py            refusal log-odds, paired tests, ridge sweep
+  n4_phase_b_analysis.py   null-confirmed-vs-underpowered determination
+  n4_phase_c.py            spectrum-preserving adversary (timeboxed)
+  n4_phase_d1.py           night-1 causal re-measured with one classifier
+  n4_report.py             night-4 figures
 ```
+
+`results/` holds cached activations (305MB), per-night metrics JSON, the
+organism edit vectors and direction matrices, 16 figures, and `run.log`.
 
 ## Reproducing
 
@@ -110,63 +125,63 @@ python -m venv .venv && .venv/bin/pip install \
     torch transformers datasets huggingface_hub numpy scipy scikit-learn matplotlib
 
 cd src
-../.venv/bin/python stage0_dtype.py        # numerics gate — must pass first
-../.venv/bin/python smoke_test.py          # end-to-end on 20 prompts
-../.venv/bin/python stage1_extract.py
-../.venv/bin/python stage23_structure.py
-../.venv/bin/python stage4_causal.py
-../.venv/bin/python make_report.py
-
-../.venv/bin/python n2_gen_valset.py       # night 2
-../.venv/bin/python n2_eval_classifier.py
-../.venv/bin/python n2_stage0_band.py
-../.venv/bin/python n2_run.py
+../.venv/bin/python stage0_dtype.py     # numerics gate — must pass first
+../.venv/bin/python smoke_test.py
+../.venv/bin/python stage1_extract.py && ../.venv/bin/python stage23_structure.py
+../.venv/bin/python stage4_causal.py    && ../.venv/bin/python make_report.py
+../.venv/bin/python n2_gen_valset.py    && ../.venv/bin/python n2_eval_classifier.py
+../.venv/bin/python n2_stage0_band.py   && ../.venv/bin/python n2_run.py
 ../.venv/bin/python n2_report.py
-
-../.venv/bin/python n3_detector.py         # night 3
-../.venv/bin/python n3_graded.py
+../.venv/bin/python n3_detector.py      && ../.venv/bin/python n3_graded.py
 ../.venv/bin/python n3_report.py
+../.venv/bin/python n4_phase_a.py       && ../.venv/bin/python n4_phase_a_analysis.py
+../.venv/bin/python n4_phase_b.py       && ../.venv/bin/python n4_phase_b_analysis.py
+../.venv/bin/python n4_phase_d1.py      && ../.venv/bin/python n4_phase_c.py
+../.venv/bin/python n4_report.py
 ```
 
-Every stage is resumable and skips work already cached on disk. Total runtime
-is roughly 25 min (night 1), 55 min (night 2), 30 min (night 3).
+Every stage is resumable and skips work already on disk. Roughly 25 min
+(night 1), 55 (night 2), 30 (night 3), 70 (night 4).
 
 ### Data note
 
 `sorry-bench/sorry-bench-202406` is gated and this account is not authorized
 (metadata reads, file fetch 403s). The code uses `SillyTilly/SorryBench`, a
 byte-faithful reup: 450 rows, identical schema, 45 categories × 10, all base
-style. Category *names* ship in no public mirror, so the taxonomy is taken from
-the SORRY-Bench paper and was verified against prompt content for 18 spot-checked
-categories.
+style. Category names ship in no public mirror, so the taxonomy comes from the
+SORRY-Bench paper; all 12 categories named in any claim were verified against
+prompt content (night 4, D2). Two Phase-A targets were unavailable:
+`google/gemma-2-2b-it` (license-gated) and `internlm/internlm2_5-1_8b-chat`
+(tokenizer requires `trust_remote_code`, declined).
 
 ## Safety
 
-Model-organism work here is deliberately scoped. Concept-localized targets come
-only from six categories where refusal is a policy judgment and non-refusal
-produces harmless text — legal, medical and financial advice; religious,
-ethical and political belief promotion — and `n2_organisms.build_localized()`
-raises on anything else. Global abliteration is a whole-model control with no
-category target, evaluated on refusal *rates* only.
+Model-organism work is deliberately scoped. Concept-localized targets come only
+from six categories where refusal is a policy judgment and non-refusal produces
+harmless text — legal, medical and financial advice; religious, ethical and
+political belief promotion — and `n2_organisms.build_localized()` raises on
+anything else. Global abliteration and the Phase-C adversary are whole-model
+controls with no category target, evaluated on refusal *rates* only.
 
-No harmful completion content is written to disk or to any log, in any night.
+Night 4's logit measurement was adopted for statistical power on the
+already-permitted categories. It does **not** widen the scope: measurement
+safety and edit-construction safety are different questions, and the guard is
+about the latter.
+
+No harmful completion content is written to disk or any log, in any night.
 Generations are classified to a binary label inside the generation loop and the
-text is discarded. The only persisted completions are in
-`results/classifier_val/`, drawn exclusively from benign alpaca prompts and the
-six in-scope categories. Organisms are stored as edit *vectors* plus a
-deterministic loader, never as edited checkpoints.
+text discarded. The only persisted completions are in `results/classifier_val/`,
+drawn exclusively from benign alpaca prompts and the six in-scope categories.
+Organisms are stored as edit *vectors* plus a deterministic loader, never as
+edited checkpoints.
 
 ## Open questions
 
-1. **A spectrum-preserving adversary.** Every night-3 positive is PC1
-   abliteration at some strength. An attacker optimising against `top1_var`
-   directly is untested and is the next thing to build.
-2. **Is night 2's null a property of RepIt or of the safe category set?** The
-   six permitted categories have baseline refusal 0.2–0.5 versus 0.742 across
-   all 45 — they are the ones these models refuse least, so a working organism
-   had little headroom. Answering this safely needs a benign high-refusal
-   category from outside SORRY-Bench, or a logit-level measurement that does not
-   require generating from a suppressed hazardous refusal.
-3. **Llama-3.2-3B remains inconclusive.** No layer band bought refusal
-   suppression without capability damage; night 1's 3B number is best read as
-   general degradation.
+1. **Can an adversary hold the PC1 direction *and* its statistics?** The Phase-C
+   attack beats the reference-free detector but is caught by Tier 2 at cos
+   0.226. Sweeping the substitute direction `u` jointly with β is the test.
+2. **Is there any reference-free invariant that survives a targeted attack?**
+   Two independent reference-free tiers failed here for two different reasons.
+3. **Why do Qwen3 and the older small models have such weak cores** (0.55–0.63)
+   while Phi-3.5 and Falcon3 reach 0.77? n=1–3 per family — currently an
+   observation, not a result.

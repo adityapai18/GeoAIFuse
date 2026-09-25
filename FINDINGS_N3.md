@@ -1,5 +1,15 @@
 # Night 3 — a baseline-free tamper detector from category-resolved geometry
 
+> **SUPERSEDED — the detector reported below FAILS. See [FINDINGS_N4.md](FINDINGS_N4.md).**
+> Its 12/12 score was obtained against a 3-model clean prior that understated
+> clean spread by 4×. Under a 13-model, 9-family prior the published threshold
+> has a **38% false-positive rate** (5 clean models flagged), and a
+> spectrum-preserving adversary built on the first construction tried suppresses
+> refusal 0.742 → 0.042 with capability intact while **passing** the detector.
+> Do not use this detector. The section below is retained as the record of the
+> claim that night 4 refutes.
+
+
 Run date: 2026-09-20. 16GB Apple Silicon, MPS, float16, batch 4.
 Detector itself is pure CPU on night-2's saved `directions.npz`; the graded
 attack sweep (§3) required ~25 min of GPU to build real partial edits.

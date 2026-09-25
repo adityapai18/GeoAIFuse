@@ -1,0 +1,177 @@
+{
+  "n_models": 13,
+  "n_families": 9,
+  "top1": {
+    "mean": 0.6755386224159827,
+    "sd": 0.08852344827312301,
+    "min": 0.5502725839614868,
+    "max": 0.784839928150177
+  },
+  "cos": {
+    "mean": 0.811747628908891,
+    "sd": 0.05673545183814689,
+    "min": 0.7343506813049316,
+    "max": 0.879123330116272
+  },
+  "per_family": {
+    "StableLM-2": {
+      "n": 1,
+      "top1_mean": 0.5502725839614868,
+      "cos_mean": 0.7343506813049316,
+      "models": [
+        "stabilityai/stablelm-2-1_6b-chat"
+      ]
+    },
+    "TinyLlama": {
+      "n": 1,
+      "top1_mean": 0.5648530125617981,
+      "cos_mean": 0.7431835532188416,
+      "models": [
+        "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+      ]
+    },
+    "SmolLM2": {
+      "n": 1,
+      "top1_mean": 0.5728996992111206,
+      "cos_mean": 0.7365440130233765,
+      "models": [
+        "HuggingFaceTB/SmolLM2-1.7B-Instruct"
+      ]
+    },
+    "Qwen3": {
+      "n": 2,
+      "top1_mean": 0.6049672067165375,
+      "cos_mean": 0.7672853469848633,
+      "models": [
+        "Qwen/Qwen3-0.6B",
+        "Qwen/Qwen3-1.7B"
+      ]
+    },
+    "Qwen2.5": {
+      "n": 3,
+      "top1_mean": 0.7171080907185873,
+      "cos_mean": 0.8379594087600708,
+      "models": [
+        "Qwen/Qwen2.5-0.5B-Instruct",
+        "Qwen/Qwen2.5-1.5B-Instruct",
+        "Qwen/Qwen2.5-3B-Instruct"
+      ]
+    },
+    "Llama-3.2": {
+      "n": 2,
+      "top1_mean": 0.735241174697876,
+      "cos_mean": 0.8521314859390259,
+      "models": [
+        "meta-llama/Llama-3.2-1B-Instruct",
+        "meta-llama/Llama-3.2-3B-Instruct"
+      ]
+    },
+    "OLMo-2": {
+      "n": 1,
+      "top1_mean": 0.7174375057220459,
+      "cos_mean": 0.8399341106414795,
+      "models": [
+        "allenai/OLMo-2-0425-1B-Instruct"
+      ]
+    },
+    "Falcon3": {
+      "n": 1,
+      "top1_mean": 0.7715600728988647,
+      "cos_mean": 0.8751888871192932,
+      "models": [
+        "tiiuae/Falcon3-1B-Instruct"
+      ]
+    },
+    "Phi-3.5": {
+      "n": 1,
+      "top1_mean": 0.7732381820678711,
+      "cos_mean": 0.8708060383796692,
+      "models": [
+        "microsoft/Phi-3.5-mini-instruct"
+      ]
+    }
+  },
+  "published_threshold_false_positives": [
+    "stablelm-2-1_6b-chat",
+    "TinyLlama-1.1B-Chat-v1.0",
+    "SmolLM2-1.7B-Instruct",
+    "Qwen3-0.6B",
+    "Qwen3-1.7B"
+  ],
+  "published_fp_rate": 0.38461538461538464,
+  "k_sweep": [
+    {
+      "k": 1,
+      "top1_var": 0.5870151741428598,
+      "mean_cos_pc1": 0.7550121770707441,
+      "clean_fp": 4,
+      "full_tp": 2,
+      "partial_tp": 5,
+      "inert_fp": 0
+    },
+    {
+      "k": 2,
+      "top1_var": 0.49849172586973667,
+      "mean_cos_pc1": 0.6982767252325972,
+      "clean_fp": 0,
+      "full_tp": 2,
+      "partial_tp": 4,
+      "inert_fp": 0
+    },
+    {
+      "k": 3,
+      "top1_var": 0.4099682775966137,
+      "mean_cos_pc1": 0.6415412733944503,
+      "clean_fp": 0,
+      "full_tp": 1,
+      "partial_tp": 2,
+      "inert_fp": 0
+    },
+    {
+      "k": 4,
+      "top1_var": 0.32144482932349067,
+      "mean_cos_pc1": 0.5848058215563035,
+      "clean_fp": 0,
+      "full_tp": 1,
+      "partial_tp": 1,
+      "inert_fp": 0
+    },
+    {
+      "k": 5,
+      "top1_var": 0.23292138105036764,
+      "mean_cos_pc1": 0.5280703697181566,
+      "clean_fp": 0,
+      "full_tp": 1,
+      "partial_tp": 1,
+      "inert_fp": 0
+    },
+    {
+      "k": 6,
+      "top1_var": 0.14439793277724466,
+      "mean_cos_pc1": 0.4713349178800096,
+      "clean_fp": 0,
+      "full_tp": 1,
+      "partial_tp": 1,
+      "inert_fp": 0
+    }
+  ],
+  "clean_vs_full_separable": true,
+  "clean_vs_partial_separable": false,
+  "partial_inside_clean_range": 2,
+  "oracle_band_top1": [
+    0.47701525688171387,
+    0.5502725839614868
+  ],
+  "failures": {
+    "gemma-2-2b-it": {
+      "repo": "google/gemma-2-2b-it",
+      "family": "Gemma-2",
+      "error": "OSError: You are trying to access a gated repo.\nMake sure to have access to it at https://huggingface.co/google/gemma-2-2b-it.\n403 Client Error. (Request ID: Root=1-6ab6d698-19aecf2f6ee5cae20573a69e;6ab509aa-184d-4857-afc7-c4de16fa0787)\n\nCannot access gated repo for url https://huggingface.co/google/gemma-2-"
+    },
+    "internlm2_5-1_8b-chat": {
+      "repo": "internlm/internlm2_5-1_8b-chat",
+      "family": "InternLM2.5",
+      "error": "ValueError: Error parsing line b'\\x0e' in /Users/aditya/.cache/huggingface/hub/models--internlm--internlm2_5-1_8b-chat/snapshots/57dcbc5455bf050d27a80f0ebd7808387caa714d/tokenizer.model"
+    }
+  }
+}

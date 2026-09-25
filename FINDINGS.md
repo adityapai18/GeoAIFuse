@@ -1,5 +1,16 @@
 # Category-resolved refusal geometry — findings
 
+> **SUPERSEDED IN PART — see [FINDINGS_N4.md](FINDINGS_N4.md) and [PAPER.md](PAPER.md).**
+> This night-1 record used a loose refusal classifier (7.5% FP) that was later
+> hardened. Corrected numbers: Qwen2.5-1.5B baseline **0.770 → 0.119** (not
+> 0.822 → 0.148); Llama-3.2-1B **0.704 → 0.170** (not 0.822 → 0.170).
+> **The Llama-3.2-3B causal claim below is WITHDRAWN**: re-measured it is
+> 0.348 → 0.356, i.e. no effect, not a "confounded" weak effect.
+> The claim that the shared core is "strikingly consistent" at 0.716–0.755 is
+> **qualified**: across 9 model families it ranges 0.550–0.785.
+> The geometry and the two-small-model causal conclusions stand.
+
+
 Run date: 2026-08-13. 16GB Apple Silicon, MPS, PyTorch 2.13 + transformers 5.15.
 Wall clock: ~22 min total across all stages (Stage 1 extraction 2 min,
 Stage 3 analysis <1 s, Stage 4 causal 16 min).

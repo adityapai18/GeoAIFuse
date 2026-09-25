@@ -1,5 +1,15 @@
 # Night 2 — concept-localized model organisms vs an AMS-style integrity scan
 
+> **SUPERSEDED IN PART — see [FINDINGS_N4.md](FINDINGS_N4.md) and [PAPER.md](PAPER.md).**
+> The selectivity metric used below is **retired** (undefined when both its terms
+> are ≈0; it produced 22.0 and −14.7 from noise). Use raw drops with CIs from
+> `results/n4_raw_drops.json` instead.
+> The night-2 null — "concept-localized organisms are inert" — was *unreadable*
+> at n=10 binary and is now **confirmed real** at logit level: 6 of 8 targets
+> have CIs excluding a 10%-of-abliteration effect (night 4, Phase B).
+> The AMS Tier-1 miss and the RepIt collinearity mechanism stand unchanged.
+
+
 Run date: 2026-08-13. 16GB Apple Silicon, MPS, float16, batch 4.
 Primary models: Qwen2.5-1.5B-Instruct, Llama-3.2-1B-Instruct.
 Wall clock: Stage 0 sweep 9 min, organism build+eval+scan 44 min.
